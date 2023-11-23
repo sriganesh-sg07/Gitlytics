@@ -1,0 +1,23 @@
+GITHUB_OAUTH_CLIENT_ID = "---"
+GITHUB_OAUTH_CLIENT_SECRET = "---"
+
+GITHUB_API_BASE_URL = "https://api.github.com/"
+GITHUB_AUTHORIZATION_URL = 'https://github.com/login/oauth/authorize'
+GITHUB_TOKEN_URL = 'https://github.com/login/oauth/access_token'
+
+BASE_URL = "https://localhost"
+
+CLIENT_REDIRECT_URI = f"{BASE_URL}/callback"
+
+GITHUB_WEBHOOK_SECRET= 'hookssss'
+GITHUB_WEBHOOK_URL= f'{BASE_URL}/postreceive'
+
+SECRET_KEY = "oof"
+JWT_SECRET_KEY = "biggeroof"
+JWT_ACCESS_TOKEN_EXPIRES = False
+SQLALCHEMY_DATABASE_URI = 'postgres://giter:git20TAMU@postgres:5432/gitlytics'
+SQLALCHEMY_TRACK_MODIFICATIONS = True
+SQLALCHEMY_RECORD_QUERIES = True
+
+CELERY_BROKER = "redis://redis:6379/0"
+CELERY_BACKEND = CELERY_BROKER

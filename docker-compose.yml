@@ -1,0 +1,55 @@
+version: '3'
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    volumes:
+      - './client:/app'
+      - '/app/node_modules'
+    ports:
+      - 3000:3000
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    stdin_open: true
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile-dev
+    command: >
+      gunicorn -b :5000 --reload "app:api"
+    volumes:
+      - './api:/usr/src/app'
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres
+    environment:
+      - SCRIPT_NAME=/api
+
+  postgres:
+    image: 'postgres:9.5'
+    env_file:
+      - '.env'
+    volumes:
+        - 'postgres_pl:/var/lib/postgresql/data'
+    ports:
+        - '5432:5432'
+        
+  redis:
+    image: redis:5.0.5
+   
+  worker:
+    build:
+      context: ./api
+      dockerfile: Dockerfile-dev
+    command: >
+      celery -A celery_worker.celery worker --loglevel=INFO
+    volumes:
+      - './api:/usr/src/app'
+    depends_on:
+      - redis
+
+volumes:
+  postgres_pl:
